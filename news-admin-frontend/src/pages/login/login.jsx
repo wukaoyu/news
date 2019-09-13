@@ -1,10 +1,21 @@
 import React from 'react'
 import { Button, Form, Input, Icon } from 'antd'
 import './login.less'
+import { login } from '../../api/user'
 
 const FormItem = Form.Item
 
 class Login extends React.Component {
+    getUserInfo = () => {
+        login().then(res => {
+            console.log(res)
+        })
+    }
+
+    componentDidMount() {
+        this.getUserInfo()
+    }    
+
     render () {
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
