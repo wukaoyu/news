@@ -31,7 +31,7 @@ export default  function request(options = {}){
   options.headers={
     'Content-Type':'application/json'
   }
-  return fetch('https://www.easy-mock.com/mock/5b404dbcd2dc0d1661640496/example/mock',options,{credentials: 'include'})
+  return fetch(commonUrl+url,options,{credentials: 'include'})
     .then(checkStatus)
     .then(parseJSON)
     .catch(err=>({err}))

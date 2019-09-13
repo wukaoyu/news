@@ -2,7 +2,7 @@ import request from './helper.js'
 
 export async function login(data = {}) {
     return request({
-        url:'/login-test',
+        url:'/users/login',
         method:'GET',
         ...data
       })
