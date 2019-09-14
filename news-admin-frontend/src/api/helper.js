@@ -31,6 +31,7 @@ export default  function request(options = {}){
   options.headers={
     'Content-Type':'application/json'
   }
+  console.log(options)
   return fetch(commonUrl+url,options,{credentials: 'include'})
     .then(checkStatus)
     .then(parseJSON)

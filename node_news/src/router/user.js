@@ -3,11 +3,8 @@ const { SuccessModel, ErrorModel } = require("../model/resModel")
 
 const handUserRouter = (req, res) => {
     const method = req.method;
-    const getCookieTime = () => {
-        let d = new Date();
-        d.setTime(d.getTime() + (24*60*60*1000));
-        return d.toGMTString();
-    }
+    
+    
     // 登录接口
     if(method === 'GET' && req.path === '/api/user/login') {
         const { username, password } = req.query;
