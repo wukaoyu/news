@@ -1,20 +1,25 @@
 import React from 'react'
-import { Button, Form, Input, Icon } from 'antd'
+import { Button, Form, Input, Icon, message } from 'antd'
 import './login.less'
 import { login } from '../../api/user'
+import cookie from 'react-cookies'
 
 const FormItem = Form.Item
 
 class Login extends React.Component {
-    getUserInfo = () => {
-        login().then(res => {
-            console.log(res)
+    // 登录函数
+    userLogin = () => {
+        console.log(cookie.load('userInfo'))
+        let userInfo = this.props.form.getFieldsValue();
+        login(userInfo).then(res => {
+            if (res.errno === 0) {
+                cookie.save('userInfo', res.data);
+                message.success('登录成功')
+            }else {
+                message.error(res.data)
+            }
         })
-    }
-
-    componentDidMount() {
-        this.getUserInfo()
-    }    
+    }   
 
     render () {
         const { getFieldDecorator } = this.props.form;
@@ -68,7 +73,7 @@ class Login extends React.Component {
                         }
                     </FormItem>
                     <FormItem {...tailFormItemLayout}>
-                        <Button type="primary">登录</Button>
+                        <Button type="primary" onClick={this.userLogin}>登录</Button>
                         <Button style={{margin:'20px'}}>重置</Button>
                     </FormItem>
                 </Form>
