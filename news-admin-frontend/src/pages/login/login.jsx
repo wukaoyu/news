@@ -7,13 +7,20 @@ import cookie from 'react-cookies'
 const FormItem = Form.Item
 
 class Login extends React.Component {
+
+    constructor(props) {
+        super(props)
+        if (cookie.load('userInfo')) {
+            this.props.history.push('/main')
+        }
+    }
     // 登录函数
     userLogin = () => {
-        console.log(cookie.load('userInfo'))
         let userInfo = this.props.form.getFieldsValue();
         login(userInfo).then(res => {
             if (res.errno === 0) {
                 cookie.save('userInfo', res.data);
+                this.props.history.push('/main')
                 message.success('登录成功')
             }else {
                 message.error(res.data)
