@@ -8,18 +8,23 @@ const FormItem = Form.Item
 
 class Login extends React.Component {
 
-    constructor(props) {
-        super(props)
-        if (cookie.load('userInfo')) {
-            this.props.history.push('/main')
-        }
+  constructor(props) {
+    super(props)
+    if (cookie.load('userInfo')) {
+        this.props.history.push('/main')
     }
+  }
     // 登录函数
     userLogin = () => {
         let userInfo = this.props.form.getFieldsValue();
+        let expires = new Date()
+        expires.setDate(Date.now() + 1000 * 60 * 60 * 24 * 14)
         login(userInfo).then(res => {
             if (res.errno === 0) {
-                cookie.save('userInfo', res.data);
+                cookie.save('userInfo', res.data, {
+                    expires: expires,
+                    maxAge: 10000,
+                });
                 this.props.history.push('/main')
                 message.success('登录成功')
             }else {
