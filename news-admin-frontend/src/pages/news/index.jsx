@@ -1,12 +1,11 @@
 import React from 'react'
 import { Form, Input, Icon, Table, Button, Select, Modal, message} from 'antd'
-import { getAllAdmins, getAdminPage, deleteAdmin, insertAdmin, updataAdmin } from '../../../api/user'
-import AddOrEditor from './addOrEditor'
+import { getNewsPage, deleteNews } from '../../api/news'
 import cookie from 'react-cookies'
 import './index.less'
 const FormItem = Form.Item
 const { Option } = Select;
-class adminAccount extends React.Component {
+class userAccount extends React.Component {
     constructor(props) {
         super(props)
         this.state={
@@ -21,28 +20,13 @@ class adminAccount extends React.Component {
         }
     }
     UNSAFE_componentWillMount() {
-        this.fungetAllAdmins()
-        this.fungetAdminPage(this.state.pageData)
+        this.fungetNewsPage(this.state.pageData)
         // this.friends.setFriends ()
     }
 
-    // 获取所有管理员信息
-    fungetAllAdmins = () => {
-        getAllAdmins().then(res => {
-            if (res.errno === 0) {    
-                this.setState({
-                    adminList:res.data
-                })
-                const adminOpation = this.renderAdminMeun()
-                this.setState({
-                    adminOpation
-                })
-            }
-        })
-    }
     // 获取分页信息
-    fungetAdminPage = (data) => {
-        getAdminPage(data).then(res => {
+    fungetNewsPage = (data) => {
+        getNewsPage(data).then(res => {
             const result = res.list
             if (result.errno === 0) {
                 let keyIndex = 0
@@ -61,20 +45,13 @@ class adminAccount extends React.Component {
 
     // 改变每页数据
     changePageSize = (pageSize,current) => {
-        let data = Object.assign({}, this.state.pageData, { pageSize,current })
-        this.setState({
-            pageData: data
-        }, () => {
-            this.fungetUserPage(this.state.pageData)
-        })
+        console.log(pageSize)
     }
     // 翻页
     changePage = (current) => {
         let data = Object.assign({}, this.state.pageData, { current })
         this.setState({
             pageData: data
-        }, () => {
-            this.fungetUserPage(this.state.pageData)
         })
     }
     // 获取所有管理员组件
@@ -93,10 +70,10 @@ class adminAccount extends React.Component {
             title:"警告!!",
             content:"删除后数据将无法复原，确认删除吗？",
             onOk() {
-                deleteAdmin({id:recore.id}).then(res => {
+                deleteNews({id:recore.id}).then(res => {
                     if (res.errno === 0) {
-                        message.success("删除成功！")
-                        _this.fungetAdminPage(_this.state.pageData)
+                        message.success("删除成功")
+                        _this.fungetNewsPage(_this.state.pageData)
                     }
                 })
             },
@@ -119,50 +96,13 @@ class adminAccount extends React.Component {
             userData: thisData
         })
         if (data.id) {
-            Modal.confirm({
-                title:"修改信息",
-                content:(
-                    <AddOrEditor callback={_this.callback}  userInfo={data}/>
-                ),
-                onOk() {
-                    if (_this.state.userData.username && _this.state.userData.name) {
-                        _this.state.userData.id = data.id
-                        updataAdmin(_this.state.userData).then(res => {
-                            if (res.errno === 0) {
-                                message.success("修改成功！")
-                                _this.fungetAdminPage(_this.state.pageData)
-                            }
-                        })
-                    }else {
-                        message.error("请输入完整信息！")
-                    }
-                },
-            })
+            window.location.href = `/#/main/editorNews/${data.id}`
         } else {
-            Modal.confirm({
-                title:"增加信息",
-                content:(
-                    <AddOrEditor callback={_this.callback} userInfo={data}/>
-                ),
-                onOk() {
-                    _this.state.userData.createname = cookie.load("userInfo").name
-                    if (_this.state.userData.username && _this.state.userData.name) {
-                        insertAdmin(_this.state.userData).then(res => {
-                            if (res.errno === 0) {
-                                message.success("添加成功！")
-                                _this.fungetAdminPage(_this.state.pageData)
-                            }
-                        })
-                    }else {
-                        message.error("请输入完整信息！")
-                    }
-                },
-            })
+            this.props.history.push('/main/addNews')
         }
     }
 
     render() {
-        const { getFieldDecorator } = this.props.form;
         const paginationProps = {
             showSizeChanger: true,
             showQuickJumper: false,
@@ -180,16 +120,9 @@ class adminAccount extends React.Component {
                 width:150,
             },
             {
-                title: '姓名',
+                title: '新闻标题',
                 dataIndex: 'name',
                 key: 'name',
-                align: 'center',
-                width:150,
-            },
-            {
-                title: '账号',
-                dataIndex: 'username',
-                key: 'username',
                 align: 'center',
                 width:150,
             },
@@ -201,17 +134,10 @@ class adminAccount extends React.Component {
             },
             {
                 title: '创建人',
-                dataIndex: 'createname',
-                key: 'createname',
+                dataIndex: 'create_username',
+                key: 'create_username',
                 align: 'center',
                 width:150,
-            },
-            {
-                title: '城市',
-                dataIndex: 'city',
-                key: 'city',
-                align: 'center',
-                width:100,
             },
             {
                 title: '操作',
@@ -243,4 +169,4 @@ class adminAccount extends React.Component {
         )
     }
 }
-export default Form.create()(adminAccount);
+export default Form.create()(userAccount);

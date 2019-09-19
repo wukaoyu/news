@@ -14,22 +14,8 @@ const menuList = [
         ]
     },
     {
-        title:'新闻信息',
-        key:'/news',
-        children:[
-            {
-                title:'新闻分类',
-                key:'/main/news/classification',
-            },
-            {
-                title:'新闻内容',
-                key:'/main/news/content',
-            }
-        ]
-    },
-    {
-        title:'标签管理',
-        key:'/main/label',
+        title:'新闻内容',
+        key:'/main/news'
     },
     {
         title:'个人中心',

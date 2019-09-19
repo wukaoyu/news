@@ -104,3 +104,21 @@ export async function updataAdmin(data = {}) {
     data: data
   })
 }
+
+// 修改个人信息
+export async function updataPerson(data = {}) {
+  return request({
+    url:'/users/updataPerson',
+    method:'POST',
+    data: data
+  })
+}
+
+// 修改个人信息
+export async function getPerson(data = {}) {
+  return request({
+    url:'/users/getPerson',
+    method:'POST',
+    data: data
+  })
+}

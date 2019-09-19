@@ -24,7 +24,6 @@ class addOrEditor extends React.Component {
               sm: { span: 18 },
             },
         };
-        const defaultCity = ["陕西省", "西安市", "碑林区"];
         return (
             <Form {...formItemLayout} style={{marginTop:"50px"}}>
                 <FormItem label='用户名:'>

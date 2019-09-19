@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { login, getAllUsers, getAllAdmins, deleteUser, insertUser, updataUser, deleteAdmin, insertAdmin, updataAdmin } = require("../controller/user")
+const { login, getAllUsers, getAllAdmins, deleteUser, insertUser, updataUser, deleteAdmin, insertAdmin, updataAdmin, updataPerson, getPerson } = require("../controller/user")
 const { SuccessModel, ErrorModel } = require("../model/resModel")
 
 //获取数据接口
@@ -20,6 +20,7 @@ router.post('/login',(req,res,next) => {
         res.json(data)
     })
 });
+
 // 获取所有用户信息
 router.post('/getAllUsers',(req,res,next) => {
     // console.log(username)
@@ -61,7 +62,8 @@ router.post('/getUserPage', (req, res ,next) => {
             pageSize=parseInt(pageSize)
             current=(parseInt(current) - 1)*pageSize
             //.slice(start,end):start必需。规定从何处开始选取。如果是负数，那么它规定从数组尾部开始算起的位置。也就是说，-1 指最后一个元素，-2 指倒数第二个元素，以此类推
-            newArry=lists.slice(current,pageSize+pageSize)
+            newArry=lists.slice(current,current+pageSize)
+            console.log(current,current+pageSize)
             hasmore=current+pageSize > lists.length ? false : true
             total = lists.length
             // console.log(newArry)
@@ -186,6 +188,36 @@ router.post('/insertAdmin',(req,res,next) => {
 router.post('/updataAdmin',(req,res,next) => {
     const {id, username, name, city } = req.body.data
     const result = updataAdmin(id, username, name, city);
+    const resultData = result.then(data => {
+        if (data) {
+            return new SuccessModel(data)
+        }
+        return new ErrorModel('异常错误')
+    })
+    resultData.then(data => {
+        res.json(data)
+    })
+});
+ 
+// 修改个人信息
+router.post('/updataPerson',(req,res,next) => {
+    const {id, name, city } = req.body.data
+    const result = updataPerson(id, name, city);
+    const resultData = result.then(data => {
+        if (data) {
+            return new SuccessModel(data)
+        }
+        return new ErrorModel('异常错误')
+    })
+    resultData.then(data => {
+        res.json(data)
+    })
+});
+ 
+// 查询个人信息
+router.post('/getPerson',(req,res,next) => {
+    const { id } = req.body.data
+    const result = getPerson(id);
     const resultData = result.then(data => {
         if (data) {
             return new SuccessModel(data)

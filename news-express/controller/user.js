@@ -75,6 +75,22 @@ const updataAdmin = (id, username, name, city) => {
     })
 }
 
+//修改个人信息
+const updataPerson = (id, name, city) => {
+    let sql = `UPDATE admins SET NAME='${name}', city='${city}' WHERE id='${id}'`
+    return exec(sql).then(row => {
+        return row || []
+    })
+}
+
+//查询个人信息
+const getPerson = (id) => {
+    let sql = `select * from  admins  WHERE id='${id}'`
+    return exec(sql).then(row => {
+        return row || []
+    })
+}
+
 module.exports = {
     login,
     getAllUsers,
@@ -84,5 +100,7 @@ module.exports = {
     updataUser,
     deleteAdmin,
     insertAdmin,
-    updataAdmin
+    updataAdmin,
+    updataPerson,
+    getPerson
 }

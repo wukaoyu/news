@@ -61,13 +61,20 @@ class userAccount extends React.Component {
 
     // 改变每页数据
     changePageSize = (pageSize,current) => {
-        console.log(pageSize)
+        let data = Object.assign({}, this.state.pageData, { pageSize,current })
+        this.setState({
+            pageData: data
+        }, () => {
+            this.fungetUserPage(this.state.pageData)
+        })
     }
     // 翻页
     changePage = (current) => {
         let data = Object.assign({}, this.state.pageData, { current })
         this.setState({
             pageData: data
+        }, () => {
+            this.fungetUserPage(this.state.pageData)
         })
     }
     // 获取所有管理员组件

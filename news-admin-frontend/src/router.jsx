@@ -6,6 +6,10 @@ import Main from './components/Main/index'
 import cookie from 'react-cookies'
 import AdminAccount from './pages/accountManege/adminAccount/index'
 import UserAccount from './pages/accountManege/userAccount/index'
+import News from './pages/news/index'
+import NewsAddOrEditor from './pages/news/addOrEditor'
+import Personal from './pages/personal/index'
+import UpdatePsw from './pages/personal/updataPassword'
 
 export default class Router extends React.Component {
     constructor(props) {
@@ -24,6 +28,11 @@ export default class Router extends React.Component {
                                 <Switch>
                                     <Route path='/main/account/user' component={UserAccount}/>
                                     <Route path='/main/account/admin' component={AdminAccount}/>
+                                    <Route path='/main/news' component={News}/>
+                                    <Route path='/main/editorNews/:newsId' component={NewsAddOrEditor}/>
+                                    <Route path='/main/addNews' component={NewsAddOrEditor}/>
+                                    <Route path='/main/personal' component={Personal}/>
+                                    <Route path='/main/password' component={UpdatePsw}/>
                                     <Redirect to='/main/account/user'/>
                                 </Switch>
                             </Main>
