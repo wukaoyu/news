@@ -6,6 +6,13 @@ const login = (username, password) => {
         return row[0] || {}
     })
 }
+
+const userLogin = (username, password) => {
+    let sql = `SELECT * FROM users where username='${username}' and password='${password}'`
+    return exec(sql).then(row => {
+        return row[0] || {}
+    })
+}
 // 获取所有用户
 const getAllUsers = () => {
     let sql = `SELECT users.*,admins.username AS create_username FROM users
@@ -93,6 +100,7 @@ const getPerson = (id) => {
 
 module.exports = {
     login,
+    userLogin,
     getAllUsers,
     getAllAdmins,
     deleteUser,

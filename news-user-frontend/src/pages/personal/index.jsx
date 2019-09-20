@@ -71,7 +71,7 @@ class personal extends React.Component {
           };
         return (
             <div className="news-center">
-                <Form {...formItemLayout} className="login-box">
+                <Form {...formItemLayout} >
                     <FormItem
                         label='姓名：'
                         className="login-item">
@@ -89,26 +89,8 @@ class personal extends React.Component {
                             )
                         }
                     </FormItem>
-                    <FormItem
-                        label='城市：'
-                        className="login-item">
-                        {
-                            getFieldDecorator('city', {
-                                initialValue: this.state.userInfo.city,
-                                rules: [
-                                    {
-                                        required: true,
-                                        message: '请输入城市',
-                                    }
-                                ]
-                            })(
-                                <Input placeholder='请输入城市'/>
-                            )
-                        }
-                    </FormItem>
                     <FormItem {...tailFormItemLayout}>
                         <Button type="primary" onClick={this.updataPerson}>确认</Button>
-                        {/* <Button style={{margin:'20px'}} onClick={this.back}>修改密码</Button> */}
                     </FormItem>
                 </Form>
             </div>

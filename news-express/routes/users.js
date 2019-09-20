@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { login, getAllUsers, getAllAdmins, deleteUser, insertUser, updataUser, deleteAdmin, insertAdmin, updataAdmin, updataPerson, getPerson } = require("../controller/user")
+const { login, getAllUsers, getAllAdmins, deleteUser, insertUser, updataUser, deleteAdmin, insertAdmin, updataAdmin, updataPerson, getPerson, userLogin } = require("../controller/user")
 const { SuccessModel, ErrorModel } = require("../model/resModel")
 
 //获取数据接口
@@ -21,6 +21,23 @@ router.post('/login',(req,res,next) => {
     })
 });
 
+//获取数据接口
+router.post('/userLogin',(req,res,next) => {
+    const {username, password} = req.body.data
+    // console.log(username)
+    const result = userLogin(username,password);
+    const resultData = result.then(data => {
+        if (data.username) {
+            //存入cookie
+            // res.setHeader("Set-Cookie", `name=${data.name};path=/; httpOnly; expires=${getCookieTime()}`);
+            return new SuccessModel(data)
+        }
+        return new ErrorModel('登录失败')
+    })
+    resultData.then(data => {
+        res.json(data)
+    })
+});
 // 获取所有用户信息
 router.post('/getAllUsers',(req,res,next) => {
     // console.log(username)

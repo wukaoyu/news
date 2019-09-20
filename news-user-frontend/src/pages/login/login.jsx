@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Form, Input, Icon, message } from 'antd'
 import './login.less'
-import { login } from '../../api/user'
+import { userLogin } from '../../api/user'
 import cookie from 'react-cookies'
 
 const FormItem = Form.Item
@@ -19,7 +19,7 @@ class Login extends React.Component {
         let userInfo = this.props.form.getFieldsValue();
         let expires = new Date()
         expires.setDate(Date.now() + 1000 * 60 * 60 * 24 * 14)
-        login(userInfo).then(res => {
+        userLogin(userInfo).then(res => {
             if (res.errno === 0) {
                 cookie.save('userInfo', res.data, {
                     expires: expires,
@@ -35,31 +35,9 @@ class Login extends React.Component {
 
     render () {
         const { getFieldDecorator } = this.props.form;
-        const formItemLayout = {
-            labelCol: {
-              xs: { span: 24 },
-              sm: { span: 8 },
-            },
-            wrapperCol: {
-              xs: { span: 24 },
-              sm: { span: 16 },
-            },
-          };
-          const tailFormItemLayout = {
-            wrapperCol: {
-              xs: {
-                span: 24,
-                offset: 0,
-              },
-              sm: {
-                span: 16,
-                offset: 8,
-              },
-            },
-          };
         return (
             <div className="login-center">
-                <Form {...formItemLayout} className="login-box">
+                <Form  className="login-box">
                     <FormItem
                         label='用户名:'
                         className="login-item">
@@ -84,7 +62,7 @@ class Login extends React.Component {
                             )
                         }
                     </FormItem>
-                    <FormItem {...tailFormItemLayout}>
+                    <FormItem >
                         <Button type="primary" onClick={this.userLogin}>登录</Button>
                         <Button style={{margin:'20px'}}>重置</Button>
                     </FormItem>

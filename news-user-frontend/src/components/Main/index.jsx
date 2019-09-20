@@ -10,10 +10,7 @@ export default class Main extends React.Component {
     render() {
         return (
             <Row>
-                <Col span={4} className="nav-left">
-                    <NavLeft/>
-                </Col>
-                <Col span={20} className="cont-main">
+                <Col className="cont-main">
                     <Header/>
                     <Row className="cont-content">
                         <div className="content-scroll"> 
