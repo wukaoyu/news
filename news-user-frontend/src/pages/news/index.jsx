@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Icon, Table, Button, Select, Modal, message} from 'antd'
+import { Form, List, Icon, Avatar, Button, Select, Modal, message} from 'antd'
 import { getNewsPage, deleteNews } from '../../api/news'
 import cookie from 'react-cookies'
 import './index.less'
@@ -95,6 +95,7 @@ class userAccount extends React.Component {
         this.setState({
             userData: thisData
         })
+        console.log("123")
         if (data.id) {
             window.location.href = `/#/main/editorNews/${data.id}`
         } else {
@@ -111,60 +112,57 @@ class userAccount extends React.Component {
             onChange: (current) => this.changePage(current),
             ...this.state.pageData
         };
-        const columns = [
-            {
-                title: '序号',
-                render:(text,record,index)=>`${index+1}`,
-                key: 'list',
-                align: 'center',
-                width:150,
-            },
-            {
-                title: '新闻标题',
-                dataIndex: 'name',
-                key: 'name',
-                align: 'center',
-                width:150,
-            },
-            {
-                title: '创建时间',
-                dataIndex: 'createtime',
-                key: 'createtime',
-                align: 'center'
-            },
-            {
-                title: '创建人',
-                dataIndex: 'create_username',
-                key: 'create_username',
-                align: 'center',
-                width:150,
-            },
-            {
-                title: '操作',
-                align: 'center',
-                width:250,
-                render:(text,recore) => (
-                    <div className="table-operation">
-                        <Button type="primary" onClick={ () => this.handAddOrEditor(recore)}>修改</Button>
-                        <Button type="danger" onClick={() => this.handDelete(recore)}>删除</Button>
-                    </div>
-                )
-            },
-          ];
+        const listData = [];
+        for (let i = 0; i < 23; i++) {
+        listData.push({
+            href: 'http://ant.design',
+            title: `ant design part ${i}`,
+            avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+            description:
+            'Ant Design, a design language for background applications, is refined by Ant UED Team.',
+            content:
+            'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+        });
+        }
         return (
             <div>
-                <Form layout="inline">
-                    <FormItem>
-                        <Button type="primary" onClick={ () => this.handAddOrEditor()}>新增</Button>
-                    </FormItem>
-                </Form>
-                <Table 
-                    pagination={ paginationProps }
-                    className="main-table"
-                    scroll={{ y: 'calc(100vh - 300px)' }}
-                    rowKey={record => record.id} 
-                    dataSource={this.state.dataSource} 
-                    columns={columns} />
+                <List
+                    itemLayout="vertical"
+                    size="large"
+                    pagination={{
+                    onChange: page => {
+                        console.log(page);
+                    },
+                    pageSize: 10,
+                    }}
+                    dataSource={this.state.dataSource}
+                    footer={
+                    <div>
+                        <b>ant design</b> footer part
+                    </div>
+                    }
+                    renderItem={item => (
+                    <List.Item
+                        key={item.title}
+                        extra={
+                        <div>
+                            <img
+                                width={272}
+                                alt="logo"
+                                src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                            />
+                            <p className="news-content">{item.name}</p>
+                        </div>
+                        }
+                    >
+                    <List.Item.Meta
+                        avatar={<Avatar src={item.avatar} />}
+                        title={<a href={item.href}>{item.title}</a>}
+                        description={item.description}
+                        />
+                        {item.content}
+                    </List.Item> )}
+                />,
             </div>
         )
     }

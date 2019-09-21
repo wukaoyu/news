@@ -7,7 +7,6 @@ import cookie from 'react-cookies'
 import News from './pages/news/index'
 import NewsAddOrEditor from './pages/news/addOrEditor'
 import Personal from './pages/personal/index'
-import UpdatePsw from './pages/personal/updataPassword'
 
 export default class Router extends React.Component {
     constructor(props) {
@@ -26,10 +25,8 @@ export default class Router extends React.Component {
                                 <Switch>
                                     <Route path='/main/news' component={News}/>
                                     <Route path='/main/editorNews/:newsId' component={NewsAddOrEditor}/>
-                                    <Route path='/main/addNews' component={NewsAddOrEditor}/>
                                     <Route path='/main/personal' component={Personal}/>
-                                    <Route path='/main/password' component={UpdatePsw}/>
-                                    <Redirect to='/main/account/user'/>
+                                    <Redirect to='/main/news'/>
                                 </Switch>
                             </Main>
                         }/>

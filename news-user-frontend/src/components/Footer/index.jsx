@@ -8,7 +8,7 @@ export default class Footer extends React.Component {
             <div className="footer">
                 <Menu theme="dark" mode="horizontal">
                     <Menu.Item style={{width:"50%"}} title='新闻'>
-                        <NavLink >新闻</NavLink>
+                        <NavLink to="/main/news">新闻</NavLink>
                     </Menu.Item>
                     <Menu.Item style={{width:"50%"}} title='我的'>
                         <NavLink to="/main/personal">我的</NavLink>
